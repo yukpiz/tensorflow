@@ -5,6 +5,9 @@ import numpy as np
 x_data = np.random.rand(100).astype(np.float32)
 y_data = x_data * 0.1 + 0.3
 
+print(x_data)
+print(y_data)
+
 # Try to find values for W and b that compute y_data = W * x_data + b
 # (We know that W should be 0.1 and b 0.3, but TensorFlow will
 # figure that out for us.)
@@ -14,7 +17,7 @@ y = W * x_data + b
 
 # Minimize the mean squared errors.
 loss = tf.reduce_mean(tf.square(y - y_data))
-optimizer = tf.train.GradientDescentOptimizer(0.5)
+optimizer = tf.train.GradientDescentOptimizer(0.2)
 train = optimizer.minimize(loss)
 
 # Before starting, initialize the variables.  We will 'run' this first.
