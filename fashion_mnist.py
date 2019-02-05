@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 print(tf.__version__)
 
 fashion_mnist = keras.datasets.fashion_mnist
-(train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+(train_images, train_labels), (test_images,
+                               test_labels) = fashion_mnist.load_data()
 
-class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 
+class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 # モデルを学習する前にデータセットのフォーマットを調べてみましょう。次の図は、トレーニングセットに6万枚の画像があり、各画像は28 x 28ピクセルで表されることを示しています。
@@ -17,6 +18,8 @@ train_images.shape
 
 # 同様に、トレーニングセットには60,000のラベルがあります。
 print(len(train_labels))
+# train_labelsとtrain_imagesの要素数は同じです
+print(len(train_images))
 
 # 各ラベルは0から9までの整数です。
 print(train_labels)
@@ -28,26 +31,26 @@ print(test_images.shape)
 print(len(test_labels))
 
 # データはネットワークをトレーニングする前に前処理する必要があります。トレーニングセットの最初の画像を調べると、ピクセル値が0から255の範囲にあることがわかります。
-#plt.figure()
-#plt.imshow(train_images[0])
-#plt.colorbar()
-#plt.grid(False)
-#plt.show()
+# plt.figure()
+# plt.imshow(train_images[0])
+# plt.colorbar()
+# plt.grid(False)
+# plt.show()
 
 # ニューラルネットワークモデルにフィードする前に、これらの値を0から1の範囲にスケーリングします。これには、画像コンポーネントのデータ型を整数からfloatにキャストし、255で割ります。これは、画像を前処理する関数です。 トレーニングセットとテストセットを同じ方法で前処理することが重要です。
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
 # トレーニングセットの最初の25枚の画像を表示し、各画像の下にクラス名を表示します。データが正しい形式であることを確認してください。これでネットワークの構築とトレーニングの準備が整いました。
-#plt.figure(figsize=(10,10))
-#for i in range(25):
+# plt.figure(figsize=(10,10))
+# for i in range(25):
 #    plt.subplot(5,5,i+1)
 #    plt.xticks([])
 #    plt.yticks([])
 #    plt.grid(False)
 #    plt.imshow(train_images[i], cmap=plt.cm.binary)
 #    plt.xlabel(class_names[train_labels[i]])
-#plt.show()
+# plt.show()
 
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28, 28)),
@@ -55,7 +58,7 @@ model = keras.Sequential([
     keras.layers.Dense(10, activation=tf.nn.softmax)
 ])
 
-model.compile(optimizer=tf.train.AdamOptimizer(), 
+model.compile(optimizer=tf.train.AdamOptimizer(),
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
@@ -68,6 +71,7 @@ predictions = model.predict(test_images)
 print(predictions[0])
 print(np.argmax(predictions[0]))
 print(test_labels[0])
+
 
 def plot_image(i, predictions_array, true_label, img):
     predictions_array, true_label, img = predictions_array[i], true_label[i], img[i]
@@ -86,7 +90,8 @@ def plot_image(i, predictions_array, true_label, img):
     plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
                                          100*np.max(predictions_array),
                                          class_names[true_label]),
-                                         color=color)
+               color=color)
+
 
 def plot_value_array(i, predictions_array, true_label):
     predictions_array, true_label = predictions_array[i], true_label[i]
@@ -94,35 +99,36 @@ def plot_value_array(i, predictions_array, true_label):
     plt.xticks([])
     plt.yticks([])
     thisplot = plt.bar(range(10), predictions_array, color="#777777")
-    plt.ylim([0, 1]) 
+    plt.ylim([0, 1])
     predicted_label = np.argmax(predictions_array)
 
     thisplot[predicted_label].set_color('red')
     thisplot[true_label].set_color('blue')
 
 #i = 12
-#plt.figure(figsize=(6,3))
-#plt.subplot(1,2,1)
+# plt.figure(figsize=(6,3))
+# plt.subplot(1,2,1)
 #plot_image(i, predictions, test_labels, test_images)
-#plt.subplot(1,2,2)
+# plt.subplot(1,2,2)
 #plot_value_array(i, predictions,  test_labels)
-#plt.show()
+# plt.show()
 
 #num_rows = 5
 #num_cols = 3
 #num_images = num_rows*num_cols
 #plt.figure(figsize=(2*2*num_cols, 2*num_rows))
-#for i in range(num_images):
+# for i in range(num_images):
 #    plt.subplot(num_rows, 2*num_cols, 2*i+1)
 #    plot_image(i, predictions, test_labels, test_images)
 #    plt.subplot(num_rows, 2*num_cols, 2*i+2)
 #    plot_value_array(i, predictions, test_labels)
-#plt.show()
+# plt.show()
+
 
 img = test_images[0]
 print(img.shape)
 
-img = (np.expand_dims(img,0))
+img = (np.expand_dims(img, 0))
 print(img.shape)
 
 predictions_single = model.predict(img)
