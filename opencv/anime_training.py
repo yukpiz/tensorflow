@@ -93,7 +93,7 @@ def train_model(image_bytes, image_labels):
         keras.layers.Flatten(input_shape=(
             FIXED_IMAGE_SIZE, FIXED_IMAGE_SIZE, 3)),
         keras.layers.Dense(256, activation=tf.nn.relu),
-        keras.layers.Dense(20, activation=tf.nn.softmax)
+        keras.layers.Dense(len(CLASS_NAMES), activation=tf.nn.softmax)
     ])
     model.compile(optimizer=tf.train.AdamOptimizer(),
                   loss='sparse_categorical_crossentropy',
@@ -122,6 +122,7 @@ if __name__ == "__main__":
     model = main(PROC_PATHS, IMG_DIR_NAMES)
 
     predictions = test(model, "270face.jpg")
-    plot_image(predictions[0])
+    print(predictions)
+    # plot_image(predictions[0])
 
     print("===> FINISH")
