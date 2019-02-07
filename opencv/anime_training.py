@@ -7,6 +7,7 @@ import imghdr
 
 import tensorflow as tf
 from tensorflow import keras
+from decimal import Decimal
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -99,7 +100,7 @@ def train_model(image_bytes, image_labels):
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
 
-    model.fit(train_images, train_labels, epochs=10)
+    model.fit(train_images, train_labels, epochs=50)
     return model
 
 
@@ -121,8 +122,16 @@ if __name__ == "__main__":
     print("===> START")
     model = main(PROC_PATHS, IMG_DIR_NAMES)
 
-    predictions = test(model, "270face.jpg")
-    print(predictions)
-    # plot_image(predictions[0])
+    predictions = test(model, "photo7.png")
+    photo_num = 1
+    for prediction in predictions:
+        print("")
+        print("--- photo%d.png ---------" % photo_num)
+        i = 0
+        for r in prediction:
+            s = "%.10f" % r
+            print("%s\t:\t%f％(%s)" % (CLASS_NAMES[i], (float(s) * 100), r))
+            i += 1
+        photo_num += 1
 
     print("===> FINISH")
