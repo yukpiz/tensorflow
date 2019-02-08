@@ -58,17 +58,17 @@ def face_detect(img_list, video_name):
             img_count += 1
 
 
-video_name = 'zombi1.mp4'
+video_name = 'zombi4.mp4'
+movie_to_image(int(10), video_name)
+images = glob.glob(output_path + video_name + '/*.jpg')
+face_detect(images, video_name)
+
+#video_name = 'zombi2.mp4'
 #movie_to_image(int(10), video_name)
-images = glob.glob(output_path + video_name + '/*.jpg')
-face_detect(images, video_name)
+#images = glob.glob(output_path + video_name + '/*.jpg')
+#face_detect(images, video_name)
 
-video_name = 'zombi2.mp4'
-movie_to_image(int(10), video_name)
-images = glob.glob(output_path + video_name + '/*.jpg')
-face_detect(images, video_name)
-
-video_name = 'zombi3.mp4'
-movie_to_image(int(10), video_name)
-images = glob.glob(output_path + video_name + '/*.jpg')
-face_detect(images, video_name)
+#video_name = 'zombi3.mp4'
+#movie_to_image(int(10), video_name)
+#images = glob.glob(output_path + video_name + '/*.jpg')
+#face_detect(images, video_name)

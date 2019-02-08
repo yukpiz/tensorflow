@@ -122,7 +122,7 @@ if __name__ == "__main__":
     print("===> START")
     model = main(PROC_PATHS, IMG_DIR_NAMES)
 
-    predictions = test(model, "photo7.png")
+    predictions = test(model, "10.jpg")
     photo_num = 1
     for prediction in predictions:
         print("")
